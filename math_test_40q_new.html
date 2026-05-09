@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Grade 3 FAST Math - 40 Question Test</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{font-size:16px;height:100%}
+body{font-family:Arial,Helvetica,sans-serif;background:#e8eaf0;color:#111;height:100%;display:flex;flex-direction:column;overflow:hidden}
+button{font-family:inherit;cursor:pointer;touch-action:manipulation;-webkit-appearance:none}
+#topBar{background:#fff;border-bottom:2px solid #bbb;padding:5px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap;font-size:13px}
+#topBar .title{font-weight:bold;font-size:13px;flex:1;min-width:180px}
+#topBar .user{font-size:11.5px;color:#555;white-space:nowrap}
+#helpBtn{background:#1a4fa0;color:#fff;border:none;border-radius:4px;padding:2px 10px;font-size:12px;font-weight:bold}
+#teacherBtn{background:#7a3a00;color:#fff;border:none;border-radius:4px;padding:2px 10px;font-size:12px;font-weight:bold;cursor:pointer}
+#toolbar{background:#fff;border-bottom:2px solid #ccc;padding:4px 10px;display:flex;align-items:center;gap:5px;flex-shrink:0;flex-wrap:wrap}
+.tbtn{display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;font-size:10px;color:#333;padding:3px 6px;border-radius:4px;min-height:38px;justify-content:center}
+.tbtn:hover{background:#eee}
+.tbtn svg{width:19px;height:19px}
+.tbtn.nav-t{background:#e4f0e4;border:1px solid #5a9a5a}
+.tbtn.save-t{background:#e4f0e4;border:1px solid #5a9a5a}
+.tbtn.pause-t{background:#fff3e0;border:1px solid #d4861a}
+#tbSpacer{flex:1}
+#qStrip{background:#fff;border-bottom:1px solid #ccc;padding:4px 10px;display:flex;align-items:center;gap:3px;flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.qDot{min-width:32px;height:32px;border:1.5px solid #aaa;background:#fff;border-radius:4px;font-size:11.5px;font-weight:bold;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;position:relative}
+.qDot:hover{background:#dde8ff}
+.qDot.active{background:#1a4fa0;color:#fff;border-color:#1a4fa0}
+.qDot.done::after{content:'✓';position:absolute;bottom:1px;right:2px;font-size:7px;color:#2a8a2a;line-height:1}
+.qDot.active.done::after{color:#90ee90}
+.qDotSep{min-width:10px;height:32px;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:16px;pointer-events:none;flex-shrink:0;font-weight:bold}
+#main{display:flex;flex:1 1 0;min-height:0;overflow:hidden}
+#qPanel{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;background:#fff;height:100%}
+#qHeader{background:#1a4fa0;color:#fff;padding:7px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+#qNum{font-size:21px;font-weight:bold}
+#qMenuBtn{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:4px;padding:3px 8px;font-size:16px}
+#qMeta{padding:3px 14px;font-size:11px;color:#666;border-bottom:1px solid #e0e0e0;background:#fafafa;display:flex;gap:10px;flex-shrink:0}
+#qBody{flex:1 1 0;overflow-y:scroll;-webkit-overflow-scrolling:touch;padding:20px 28px;min-height:0}
+.qPrompt{font-size:15px;line-height:1.55;margin-bottom:16px;max-width:720px}
+.qPrompt strong{font-weight:bold}
+.qExcerpt{background:#f4f6fa;border-left:3px solid #1a4fa0;padding:9px 13px;margin-bottom:14px;line-height:1.6;border-radius:0 4px 4px 0;font-size:14px;max-width:720px}
+.partLabel{font-weight:bold;color:#1a4fa0;margin-bottom:6px;font-size:14.5px}
+.partDivider{border:none;border-top:2px dashed #ccc;margin:16px 0;max-width:720px}
+.choices{display:flex;flex-direction:column;gap:8px;max-width:680px}
+.choice{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;border:1.5px solid #ccc;border-radius:6px;cursor:pointer;transition:all .13s;background:#fff;text-align:left;width:100%;font-size:14.5px;line-height:1.45;font-family:Arial,Helvetica,sans-serif;min-height:46px}
+.choice:hover{background:#eef2ff;border-color:#7090d0}
+.choice.sel{background:#dde8ff;border-color:#1a4fa0}
+.choice.correct{background:#d4f5d4;border-color:#2a8a2a}
+.choice.wrong{background:#ffd8d8;border-color:#cc3333}
+.choice:disabled{cursor:default}
+.cMarker{width:17px;height:17px;border:2px solid #999;border-radius:50%;flex-shrink:0;margin-top:2px;background:#fff;display:flex;align-items:center;justify-content:center}
+.choice.sel .cMarker{background:#1a4fa0;border-color:#1a4fa0}
+.choice.sel .cMarker::after{content:'';width:6px;height:6px;background:#fff;border-radius:50%;display:block}
+.cMarker.chk{border-radius:3px}
+.choice.sel .cMarker.chk::after{content:'✓';font-size:10px;color:#fff;font-weight:bold;border-radius:0;width:auto;height:auto;background:none}
+.cLetter{font-weight:bold;color:#1a4fa0;min-width:19px;font-size:14.5px}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;font-size:14.5px;line-height:1.1}
+.frac .num,.frac .den{display:block;text-align:center;padding:0 3px}
+.frac .bar{border-top:1.5px solid currentColor;width:100%}
+.tblQ{width:100%;max-width:680px;border-collapse:collapse;font-size:13.5px;margin-top:5px}
+.tblQ th{background:#1a4fa0;color:#fff;padding:7px 9px;text-align:center;border:1px solid #aaa;font-weight:bold}
+.tblQ td{border:1px solid #bbb;padding:7px 9px;text-align:center;vertical-align:middle}
+.tblQ td:first-child{text-align:left;font-weight:bold;font-size:13px}
+.tblQ tr:nth-child(even) td{background:#f0f4ff}
+.tblBub{width:20px;height:20px;border:2px solid #888;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;background:#fff;transition:all .13s;font-size:11.5px;font-weight:bold;color:#555}
+.tblBub:hover{border-color:#1a4fa0;background:#eef}
+.tblBub.sel{background:#1a4fa0;border-color:#1a4fa0;color:#fff}
+.tblBub.correct{background:#2a8a2a;border-color:#2a8a2a;color:#fff}
+.tblBub.wrong{background:#cc3333;border-color:#cc3333;color:#fff}
+.feedback{margin-top:14px;padding:12px 14px;border-radius:6px;font-size:13.5px;line-height:1.5;max-width:680px}
+.feedback.ok{background:#d4f5d4;border:1px solid #2a8a2a;color:#1a5c1a}
+.feedback.bad{background:#ffd8d8;border:1px solid #cc3333;color:#7a0000}
+#botNav{padding:9px 16px;background:#f2f2f4;border-top:1px solid #ddd;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.navBtn{background:#1a4fa0;color:#fff;border:none;padding:10px 24px;border-radius:5px;font-size:14px;font-weight:bold;min-height:44px;min-width:84px;transition:background .13s}
+.navBtn:hover{background:#153d80}
+.navBtn:active{background:#0e2d60}
+.navBtn:disabled{background:#aaa;cursor:default}
+#saveInfo{font-size:11.5px;color:#666;text-align:center}
+#toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.76);color:#fff;padding:8px 20px;border-radius:22px;font-size:14px;z-index:9999;opacity:0;pointer-events:none;white-space:nowrap;transition:opacity .25s;font-family:Arial,sans-serif}
+#notesOverlay{display:none;position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.45)}
+#notesBox{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:10px;width:min(500px,92vw);max-height:70vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.35)}
+#notesHeader{background:#1a4fa0;color:#fff;padding:10px 16px;border-radius:10px 10px 0 0;display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:15px}
+#notesClose{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:4px;padding:3px 10px;font-size:16px;cursor:pointer}
+#notesArea{flex:1;padding:14px;overflow-y:auto}
+#notesTxt{width:100%;height:180px;border:1.5px solid #ccc;border-radius:6px;padding:10px;font-family:Arial,sans-serif;font-size:14px;resize:vertical;outline:none}
+#notesFooter{padding:10px 14px;border-top:1px solid #eee;display:flex;justify-content:flex-end;gap:8px}
+.nBtn{padding:8px 18px;border:none;border-radius:5px;font-size:14px;font-weight:bold;cursor:pointer}
+#notesClear{background:#f0f0f0;color:#333}
+#notesSave{background:#1a4fa0;color:#fff}
+#lrBar{display:none;position:fixed;left:0;right:0;z-index:700;height:36px;background:rgba(255,220,0,.35);border-top:2px solid rgba(200,160,0,.5);border-bottom:2px solid rgba(200,160,0,.5);pointer-events:none}
+#lrControls{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:710;background:#1a4fa0;border-radius:24px;padding:6px 14px;display:none;gap:10px;align-items:center;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.lrBtn{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:16px;padding:5px 14px;font-size:13px;font-weight:bold;cursor:pointer}
+#lrCloseBtn{background:rgba(255,100,100,.4)}
+@media(max-width:600px){#topBar .title{font-size:11px}.tbtn{font-size:9px;padding:2px 4px}#qBody{padding:14px 14px}.qPrompt,.choice{font-size:13.5px}}
+</style>
+</head>
+<body>
+<div id="topBar">
+  <span class="title">Grade 3 FAST Math &nbsp;|&nbsp; 40-Question Test</span>
+  <span class="user">GUEST, STUDENT &nbsp; GUEST SESSION</span>
+  <button id="helpBtn">?</button>
+  <button id="teacherBtn" onclick="teacherAccess()">Teacher</button>
+</div>
+<div id="toolbar">
+  <button class="tbtn nav-t" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="10"/><polyline points="12,8 8,12 12,16"/><line x1="16" y1="12" x2="8" y2="12"/></svg>Back</button>
+  <button class="tbtn nav-t" onclick="goNext()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="10"/><polyline points="12,8 16,12 12,16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Next</button>
+  <button class="tbtn save-t" onclick="doSave()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save</button>
+  <button class="tbtn pause-t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg>Pause</button>
+  <div id="tbSpacer"></div>
+  <button class="tbtn" onclick="openNotes()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>Notes</button>
+  <button class="tbtn" onclick="toggleLR()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>Line Reader</button>
+  <button class="tbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>Zoom Out</button>
+  <button class="tbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>Zoom In</button>
+</div>
+<div id="qStrip"></div>
+<div id="main">
+  <div id="qPanel">
+    <div id="qHeader"><span id="qNum">1</span><button id="qMenuBtn">&#x2630;</button></div>
+    <div id="qMeta"><span>GUEST, STUDENT</span><span id="saveTime"></span></div>
+    <div id="qBody"></div>
+    <div id="botNav">
+      <button class="navBtn" id="btnBack" onclick="goBack()">&#x25C4; Back</button>
+      <div id="saveInfo">Not yet saved</div>
+      <button class="navBtn" id="btnNext" onclick="goNext()">Next &#x25BA;</button>
+    </div>
+  </div>
+</div>
+<div id="notesOverlay" onclick="if(event.target===this)closeNotes()">
+  <div id="notesBox">
+    <div id="notesHeader"><span>&#x1F4DD; My Notes</span><button id="notesClose" onclick="closeNotes()">&#x2715;</button></div>
+    <div id="notesArea"><textarea id="notesTxt" placeholder="Type your notes here..."></textarea></div>
+    <div id="notesFooter"><button class="nBtn" id="notesClear" onclick="clearNotes()">Clear</button><button class="nBtn" id="notesSave" onclick="saveNotes()">Save &amp; Close</button></div>
+  </div>
+</div>
+<div id="lrBar"></div>
+<div id="lrControls">
+  <button class="lrBtn" onclick="lrMove(-30)">&#x25B2; Up</button>
+  <button class="lrBtn" onclick="lrMove(30)">&#x25BC; Down</button>
+  <button class="lrBtn" id="lrCloseBtn" onclick="toggleLR()">&#x2715; Close</button>
+</div>
+<div id="toast"></div>
+<script>
+
+let cur=0,reviewMode=false,lastAttempt=null;
+const answers={};
+const Qs=[
+  {id:1,type:`mc`,
+   prompt:`A train car holds 500 passengers. A station schedules 6 train cars for the morning rush. How many passengers can travel in all?`,
+   choices:[`506`,`300`,`3,000`,`30,000`],correct:2,
+   explain:`6 × 500 = 6 × 5 × 100 = 30 × 100 = 3,000 passengers.`},
+  {id:2,type:`mc`,
+   prompt:`What is 4 × 80?`,
+   choices:[`32`,`84`,`320`,`3,200`],correct:2,
+   explain:`4 × 80 = 4 × 8 × 10 = 32 × 10 = 320.`},
+  {id:3,type:`mc`,
+   prompt:`A chef uses 200 grams of cheese for each pizza. On Friday she made 7 pizzas. How many grams of cheese did she use?`,
+   choices:[`207`,`140`,`1,400`,`14,000`],correct:2,
+   explain:`7 × 200 = 7 × 2 × 100 = 14 × 100 = 1,400 grams.`},
+  {id:4,type:`mc`,
+   prompt:`Which expression has the same value as 6 × 400?`,
+   choices:[`6 × 4`,`6 × 40`,`60 × 40`,`6 × 4 × 10`],correct:2,
+   explain:`60 × 40 = 6 × 10 × 4 × 10 = 24 × 100 = 2,400. Also 6 × 400 = 2,400. ✓`},
+  {id:5,type:`mc`,
+   prompt:`A parking lot has 9 rows. Each row holds 70 cars. What is the greatest number of cars the lot can hold?`,
+   choices:[`79`,`63`,`630`,`6,300`],correct:2,
+   explain:`9 × 70 = 9 × 7 × 10 = 63 × 10 = 630 cars.`},
+  {id:6,type:`table`,
+   prompt:`Select True or False for each multiplication statement.`,
+   rows:[{label:`5 × 90 = 450`,cols:[`True`,`False`],correct:0},{label:`3 × 800 = 240`,cols:[`True`,`False`],correct:1},{label:`7 × 600 = 4,200`,cols:[`True`,`False`],correct:0},{label:`2 × 500 = 1,000`,cols:[`True`,`False`],correct:0}],
+   explain:`5×90=450 ✓. 3×800=2,400 (not 240) ✗. 7×600=4,200 ✓. 2×500=1,000 ✓.`},
+  {id:7,type:`mc`,
+   prompt:`Ivan says: "I can find 8 × 600 by first solving 8 × 6 = 48, then writing two zeros to get 4,800." Is Ivan correct?`,
+   choices:[`No — you only attach one zero`,`Yes — 8 × 600 = 4,800`,`No — 8 × 600 = 480`,`Yes — but you should write three zeros`],correct:1,
+   explain:`Ivan is correct. 8 × 600 = 8 × 6 × 100 = 48 × 100 = 4,800. Attaching two zeros because 600 has two zeros.`},
+  {id:8,type:`partAB`,
+   partA:{prompt:`Part A — A factory makes 300 bolts per machine per day. How many bolts do 5 machines make in one day?`,choices:[`305`,`150`,`1,500`,`15,000`],correct:2},
+   partB:{prompt:`Part B — How many bolts do the same 5 machines make in 3 days?`,choices:[`450`,`4,500`,`45,000`,`4,050`],correct:1},
+   explain:`Part A: 5 × 300 = 1,500 bolts per day. Part B: 3 days × 1,500 = 4,500 bolts total.`},
+  {id:9,type:`multi`,
+   prompt:`Select <strong>two</strong> expressions that equal <strong>5,600</strong>.`,
+   choices:[`7 × 800`,`8 × 700`,`9 × 600`,`4 × 900`,`6 × 800`],correct:[0, 1],
+   explain:`7 × 800 = 5,600 ✓. 8 × 700 = 5,600 ✓. 9×600=5,400. 4×900=3,600. 6×800=4,800.`},
+  {id:10,type:`mc`,
+   prompt:`The table shows output from a machine.<br><br><table style="border-collapse:collapse;font-size:14px;margin:8px 0"><tr><th style="background:#1a4fa0;color:#fff;padding:5px 12px;border:1px solid #aaa">Hours</th><th style="background:#1a4fa0;color:#fff;padding:5px 12px;border:1px solid #aaa">Parts Made</th></tr><tr><td style="border:1px solid #bbb;padding:5px 12px;text-align:center">1</td><td style="border:1px solid #bbb;padding:5px 12px;text-align:center">90</td></tr><tr><td style="border:1px solid #bbb;padding:5px 12px;text-align:center;background:#eef2ff">2</td><td style="border:1px solid #bbb;padding:5px 12px;text-align:center;background:#eef2ff">180</td></tr><tr><td style="border:1px solid #bbb;padding:5px 12px;text-align:center">4</td><td style="border:1px solid #bbb;padding:5px 12px;text-align:center">360</td></tr><tr><td style="border:1px solid #bbb;padding:5px 12px;text-align:center;background:#eef2ff">8</td><td style="border:1px solid #bbb;padding:5px 12px;text-align:center;background:#eef2ff">?</td></tr></table>How many parts does the machine make in 8 hours?`,
+   choices:[`98`,`720`,`7,200`,`802`],correct:1,
+   explain:`8 × 90 = 8 × 9 × 10 = 72 × 10 = 720 parts.`},
+  {id:11,type:`mc`,
+   prompt:`A greenhouse has 4 rows of plants with 57 plants in each row. Which expression uses the distributive property to find the total?`,
+   choices:[`4 + 57`,`(4 × 50) + (4 × 7)`,`(4 + 50) × (4 + 7)`,`4 × 5 × 7`],correct:1,
+   explain:`4 × 57 = 4 × (50 + 7) = (4 × 50) + (4 × 7) = 200 + 28 = 228.`},
+  {id:12,type:`mc`,
+   prompt:`What is 4 × 57?`,
+   choices:[`218`,`224`,`228`,`238`],correct:2,
+   explain:`(4 × 50) + (4 × 7) = 200 + 28 = 228.`},
+  {id:13,type:`mc`,
+   prompt:`Which equation correctly shows the distributive property?`,
+   choices:[`3 × 82 = (3 + 80) + (3 + 2)`,`3 × 82 = (3 × 80) + (3 × 2)`,`3 × 82 = 3 × 8 × 2`,`3 × 82 = (3 × 80) × (3 × 2)`],correct:1,
+   explain:`The distributive property splits multiplication over addition: 3 × 82 = 3 × (80 + 2) = (3 × 80) + (3 × 2) = 240 + 6 = 246.`},
+  {id:14,type:`mc`,
+   prompt:`What is 3 × 82?`,
+   choices:[`236`,`244`,`246`,`256`],correct:2,
+   explain:`3 × 82 = (3 × 80) + (3 × 2) = 240 + 6 = 246.`},
+  {id:15,type:`mc`,
+   prompt:`A student writes: 7 × 48 = (7 × 50) − (7 × ___). What is the missing number?`,
+   choices:[`1`,`2`,`8`,`50`],correct:1,
+   explain:`48 = 50 − 2. So 7 × 48 = 7 × (50 − 2) = (7 × 50) − (7 × 2). Missing number is 2.`},
+  {id:16,type:`mc`,
+   prompt:`A zoo has 6 enclosures. Each enclosure holds 33 animals. A zookeeper solves this as (6 × 30) + (6 × 3). What is the total number of animals?`,
+   choices:[`178`,`188`,`196`,`198`],correct:3,
+   explain:`(6 × 30) + (6 × 3) = 180 + 18 = 198 animals.`},
+  {id:17,type:`partAB`,
+   partA:{prompt:`Part A — Two students find 5 × 78 differently. Kim: (5 × 70) + (5 × 8). Lee: (5 × 80) − (5 × 2). Which students are correct?`,choices:[`Only Kim`,`Only Lee`,`Both Kim and Lee`,`Neither student`],correct:2},
+   partB:{prompt:`Part B — What is 5 × 78?`,choices:[`380`,`385`,`390`,`395`],correct:2},
+   explain:`Part A: Kim: 350+40=390 ✓. Lee: 400−10=390 ✓. Both correct. Part B: 5 × 78 = 390.`},
+  {id:18,type:`multi`,
+   prompt:`Select <strong>two</strong> expressions equal to <strong>8 × 35</strong>.`,
+   choices:[`(8 × 30) + (8 × 5)`,`(8 × 40) − (8 × 5)`,`8 + 35`,`(8 × 30) + 5`,`(8 × 35) + 0`],correct:[0, 1],
+   explain:`A: (8×30)+(8×5)=240+40=280 ✓. B: (8×40)−(8×5)=320−40=280 ✓. Both equal 8×35=280.`},
+  {id:19,type:`table`,
+   prompt:`Match each expression to its product.`,
+   rows:[{label:`6 × 49`,cols:[`284`,`294`,`304`],correct:1},{label:`5 × 68`,cols:[`330`,`340`,`350`],correct:1},{label:`7 × 93`,cols:[`641`,`651`,`661`],correct:1}],
+   explain:`6×49=(6×50)−(6×1)=300−6=294. 5×68=(5×60)+(5×8)=300+40=340. 7×93=(7×90)+(7×3)=630+21=651.`},
+  {id:20,type:`mc`,
+   prompt:`An area model for 9 × 64 is split as (9 × 60) + (9 × 4). Which number sentence is equivalent?`,
+   choices:[`9 × (60 + 40)`,`9 × (60 + 4)`,`(9 + 60) × (9 + 4)`,`9 × 60 + 4`],correct:1,
+   explain:`(9 × 60) + (9 × 4) = 9 × (60 + 4) = 9 × 64. The reverse of the distributive property factors out the 9.`},
+  {id:21,type:`mc`,
+   prompt:`A loaf of bread is sliced into 8 equal pieces. Leon's family ate 3 full loaves and 5 more slices. What fraction shows the total amount eaten?`,
+   choices:[`<span class="frac"><span class="num">3</span><span class="bar"></span><span class="den">8</span></span>`,`<span class="frac"><span class="num">5</span><span class="bar"></span><span class="den">8</span></span>`,`<span class="frac"><span class="num">29</span><span class="bar"></span><span class="den">8</span></span>`,`<span class="frac"><span class="num">8</span><span class="bar"></span><span class="den">29</span></span>`],correct:2,
+   explain:`3 loaves = 24 slices, plus 5 more = 29 slices total. Each loaf = 8 slices, so 29/8.`},
+  {id:22,type:`mc`,
+   prompt:`Which fraction is equivalent to 3 wholes?`,
+   choices:[`<span class="frac"><span class="num">3</span><span class="bar"></span><span class="den">1</span></span>`,`<span class="frac"><span class="num">6</span><span class="bar"></span><span class="den">3</span></span>`,`<span class="frac"><span class="num">9</span><span class="bar"></span><span class="den">3</span></span>`,`<span class="frac"><span class="num">3</span><span class="bar"></span><span class="den">3</span></span>`],correct:2,
+   explain:`9/3 = 3 because 9 ÷ 3 = 3. Also 6/3 = 2 and 3/3 = 1. The answer is 9/3.`},
+  {id:23,type:`mc`,
+   prompt:`A student reads "twelve fifths" and writes the fraction. Which is correct?`,
+   choices:[`<span class="frac"><span class="num">5</span><span class="bar"></span><span class="den">12</span></span>`,`<span class="frac"><span class="num">12</span><span class="bar"></span><span class="den">5</span></span>`,`<span class="frac"><span class="num">7</span><span class="bar"></span><span class="den">5</span></span>`,`<span class="frac"><span class="num">2</span><span class="bar"></span><span class="den">5</span></span>`],correct:1,
+   explain:`"Twelve fifths" means 12 on top (numerator) and 5 on bottom (denominator) = 12/5.`},
+  {id:24,type:`mc`,
+   prompt:`Look at the fractions: <span class="frac"><span class="num">4</span><span class="bar"></span><span class="den">3</span></span>, <span class="frac"><span class="num">4</span><span class="bar"></span><span class="den">6</span></span>, <span class="frac"><span class="num">4</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">4</span><span class="bar"></span><span class="den">9</span></span>. Which is the greatest?`,
+   choices:[`<span class="frac"><span class="num">4</span><span class="bar"></span><span class="den">9</span></span>`,`<span class="frac"><span class="num">4</span><span class="bar"></span><span class="den">6</span></span>`,`<span class="frac"><span class="num">4</span><span class="bar"></span><span class="den">4</span></span>`,`<span class="frac"><span class="num">4</span><span class="bar"></span><span class="den">3</span></span>`],correct:3,
+   explain:`When numerators are equal, the fraction with the SMALLEST denominator is greatest. 4/3 > 4/4 > 4/6 > 4/9. The answer is 4/3.`},
+  {id:25,type:`mc`,
+   prompt:`Samira says: "Any fraction with a numerator larger than its denominator must be greater than 2." Is she correct?`,
+   choices:[`Yes — if the top is bigger, the value is always more than 2`,`No — a fraction is greater than 1 when numerator > denominator, but not necessarily greater than 2`,`Yes — because more pieces means a larger amount`,`No — a fraction with numerator > denominator is always equal to exactly 2`],correct:1,
+   explain:`Samira is wrong. 7/4 = 1.75, which is greater than 1 but NOT greater than 2. A fraction is only guaranteed to be greater than 1 (not 2) when numerator > denominator.`},
+  {id:26,type:`partAB`,
+   partA:{prompt:`Part A — A number line goes from 0 to 2. Point X is between 1 and 2, closer to 2. Which fraction could be at Point X?`,choices:[`<span class="frac"><span class="num">1</span><span class="bar"></span><span class="den">4</span></span>`,`<span class="frac"><span class="num">5</span><span class="bar"></span><span class="den">8</span></span>`,`<span class="frac"><span class="num">7</span><span class="bar"></span><span class="den">4</span></span>`,`<span class="frac"><span class="num">9</span><span class="bar"></span><span class="den">4</span></span>`],correct:2},
+   partB:{prompt:`Part B — What is the word form of that fraction?`,choices:[`four sevenths`,`seven fourths`,`four and seven`,`seven halves`],correct:1},
+   explain:`Part A: 7/4 = 1.75, which is between 1 and 2 and closer to 2. Part B: 7/4 = "seven fourths."`},
+  {id:27,type:`mc`,
+   prompt:`A fraction has the same numerator and denominator. Which statement must be true?`,
+   choices:[`The fraction is greater than 1`,`The fraction equals exactly 1`,`The fraction is less than 1`,`The fraction equals 0`],correct:1,
+   explain:`When numerator = denominator (and both are nonzero), the fraction = 1. For example: 5/5 = 1, 12/12 = 1.`},
+  {id:28,type:`table`,
+   prompt:`For each fraction, select the correct word form.`,
+   rows:[{label:`<span class="frac"><span class="num">9</span><span class="bar"></span><span class="den">2</span></span>`,cols:[`nine halves`,`two ninths`,`nine twos`],correct:0},{label:`<span class="frac"><span class="num">5</span><span class="bar"></span><span class="den">4</span></span>`,cols:[`four fifths`,`five fourths`,`five halves`],correct:1},{label:`<span class="frac"><span class="num">7</span><span class="bar"></span><span class="den">3</span></span>`,cols:[`three sevenths`,`seven thirds`,`seven halves`],correct:1}],
+   explain:`9/2 = nine halves. 5/4 = five fourths. 7/3 = seven thirds.`},
+  {id:29,type:`multi`,
+   prompt:`Select <strong>two</strong> fractions that name the same amount as <span class="frac"><span class="num">1</span><span class="bar"></span><span class="den">2</span></span>.`,
+   choices:[`<span class="frac"><span class="num">2</span><span class="bar"></span><span class="den">4</span></span>`,`<span class="frac"><span class="num">3</span><span class="bar"></span><span class="den">4</span></span>`,`<span class="frac"><span class="num">4</span><span class="bar"></span><span class="den">8</span></span>`,`<span class="frac"><span class="num">5</span><span class="bar"></span><span class="den">8</span></span>`,`<span class="frac"><span class="num">2</span><span class="bar"></span><span class="den">8</span></span>`],correct:[0, 2],
+   explain:`2/4 = 0.5 = 1/2 ✓. 4/8 = 0.5 = 1/2 ✓. These are equivalent fractions. 3/4 = 0.75, 5/8 = 0.625, 2/8 = 0.25.`},
+  {id:30,type:`mc`,
+   prompt:`Which correctly orders these fractions from least to greatest?<br><br><span class="frac"><span class="num">3</span><span class="bar"></span><span class="den">4</span></span>,  <span class="frac"><span class="num">5</span><span class="bar"></span><span class="den">4</span></span>,  <span class="frac"><span class="num">1</span><span class="bar"></span><span class="den">4</span></span>,  <span class="frac"><span class="num">7</span><span class="bar"></span><span class="den">4</span></span>`,
+   choices:[`<span class="frac"><span class="num">7</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">5</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">3</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">1</span><span class="bar"></span><span class="den">4</span></span>`,`<span class="frac"><span class="num">1</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">3</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">5</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">7</span><span class="bar"></span><span class="den">4</span></span>`,`<span class="frac"><span class="num">3</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">1</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">7</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">5</span><span class="bar"></span><span class="den">4</span></span>`,`<span class="frac"><span class="num">5</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">3</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">7</span><span class="bar"></span><span class="den">4</span></span>, <span class="frac"><span class="num">1</span><span class="bar"></span><span class="den">4</span></span>`],correct:1,
+   explain:`All have denominator 4, so compare numerators: 1/4 < 3/4 < 5/4 < 7/4. Least to greatest: 1/4, 3/4, 5/4, 7/4.`},
+  {id:31,type:`mc`,
+   prompt:`A tile has 4 sides. All angles are right angles. Opposite sides are equal but NOT all 4 sides are the same length. What is the most specific name for this tile?`,
+   choices:[`Square`,`Rhombus`,`Rectangle`,`Trapezoid`],correct:2,
+   explain:`A rectangle has 4 right angles and opposite sides equal, but adjacent sides can be different lengths. If all 4 sides were equal, it would be a square.`},
+  {id:32,type:`mc`,
+   prompt:`Which shape has two pairs of parallel sides but does NOT always have right angles?`,
+   choices:[`Rectangle`,`Square`,`Parallelogram`,`Trapezoid`],correct:2,
+   explain:`A parallelogram has two pairs of parallel sides, but its angles are not required to be right angles. Rectangles and squares do have right angles. Trapezoids have only one pair of parallel sides.`},
+  {id:33,type:`mc`,
+   prompt:`Look at these shapes: square, rhombus, rectangle, trapezoid.<br>Which shape does NOT belong in the group "parallelograms"?`,
+   choices:[`Square`,`Rhombus`,`Rectangle`,`Trapezoid`],correct:3,
+   explain:`A parallelogram needs two pairs of parallel sides. Squares, rhombuses, and rectangles all have two pairs. A trapezoid has only one pair, so it is not a parallelogram.`},
+  {id:34,type:`mc`,
+   prompt:`Mr. Kim says: "A square is always a rhombus, but a rhombus is not always a square." Is he correct?`,
+   choices:[`No — a square and rhombus are completely different shapes`,`Yes — a square meets every property of a rhombus (4 equal sides) but also requires right angles`,`No — a rhombus is always a square`,`Yes — but only if the square is smaller than the rhombus`],correct:1,
+   explain:`Mr. Kim is correct. A rhombus just needs 4 equal sides. A square has 4 equal sides AND right angles. So every square is a rhombus, but a rhombus without right angles is not a square.`},
+  {id:35,type:`table`,
+   prompt:`For each shape, select all the categories it belongs to.`,
+   rows:[{label:`Square`,cols:[`Quadrilateral`,`Parallelogram`,`Rectangle`],correct:2},{label:`Trapezoid`,cols:[`Quadrilateral`,`Parallelogram`,`Rectangle`],correct:0},{label:`Rhombus`,cols:[`Quadrilateral`,`Parallelogram`,`Rectangle`],correct:1}],
+   explain:`Square: it is a quadrilateral, a parallelogram, AND a rectangle (special rectangle with equal sides). Trapezoid: only a quadrilateral (1 pair parallel sides). Rhombus: quadrilateral and parallelogram (2 pairs parallel, but angles not necessarily 90°).`},
+  {id:36,type:`mc`,
+   prompt:`How many pairs of parallel sides does a trapezoid have?`,
+   choices:[`0`,`1`,`2`,`4`],correct:1,
+   explain:`A trapezoid has exactly 1 pair of parallel sides. This is what distinguishes it from parallelograms, which have 2 pairs.`},
+  {id:37,type:`mc`,
+   prompt:`A shape has 4 sides. Opposite sides are parallel and equal. All angles are right angles. Adjacent sides are NOT equal. What is this shape?`,
+   choices:[`Square`,`Rectangle`,`Rhombus`,`Trapezoid`],correct:1,
+   explain:`Opposite sides parallel and equal + all right angles = rectangle. Adjacent sides not equal rules out the square.`},
+  {id:38,type:`multi`,
+   prompt:`Select <strong>two</strong> statements that are ALWAYS true about a square.`,
+   choices:[`A square is a type of parallelogram`,`A square has no parallel sides`,`A square always has exactly 4 right angles`,`A square is never a quadrilateral`,`A square has 5 sides`],correct:[0, 2],
+   explain:`A square always has 2 pairs of parallel sides → parallelogram ✓. A square always has 4 right angles ✓. The other statements are false.`},
+  {id:39,type:`partAB`,
+   partA:{prompt:`Part A — A student is told: "Draw a quadrilateral that is not a parallelogram." Which shape should she draw?`,choices:[`Rectangle`,`Rhombus`,`Trapezoid`,`Square`],correct:2},
+   partB:{prompt:`Part B — What property makes the shape in Part A different from a parallelogram?`,choices:[`It has no right angles`,`It has only 3 sides`,`It has only one pair of parallel sides`,`It has more than 4 sides`],correct:2},
+   explain:`Part A: A trapezoid is a quadrilateral but NOT a parallelogram. Part B: A trapezoid has only one pair of parallel sides; a parallelogram has two.`},
+  {id:40,type:`table`,
+   prompt:`Decide whether each statement about quadrilaterals is Always True, Sometimes True, or Never True.`,
+   rows:[{label:`A quadrilateral has 4 sides.`,cols:[`Always`,`Sometimes`,`Never`],correct:0},{label:`A quadrilateral has equal sides.`,cols:[`Always`,`Sometimes`,`Never`],correct:1},{label:`A quadrilateral has 5 or more sides.`,cols:[`Always`,`Sometimes`,`Never`],correct:2},{label:`A quadrilateral has at least one right angle.`,cols:[`Always`,`Sometimes`,`Never`],correct:1}],
+   explain:`4 sides: ALWAYS (definition). Equal sides: SOMETIMES (true for squares and rhombuses). 5+ sides: NEVER (quadrilaterals have exactly 4). Right angle: SOMETIMES (rectangles/squares yes, rhombuses/trapezoids not always).`}
+];
+const SEG=[
+  {qs:[0,9],  label:'Q1-10 · MA.3.NSO.2.3', color:'#1a4fa0'},
+  {qs:[10,19],label:'Q11-20 · MA.3.AR.1.1', color:'#5a3a00'},
+  {qs:[20,29],label:'Q21-30 · MA.3.FR.1.3', color:'#1a6a40'},
+  {qs:[30,39],label:'Q31-40 · MA.3.GR.1.2', color:'#6a1a6a'}
+];
+function segFor(i){return SEG.find(s=>i>=s.qs[0]&&i<=s.qs[1]);}
+function isCorrect(q,a){if(a===undefined||a===null)return false;if(q.type==='mc')return a===q.correct;if(q.type==='multi')return[...a].sort().join()===[...q.correct].sort().join();if(q.type==='partAB')return a&&a.a===q.partA.correct&&a.b===q.partB.correct;if(q.type==='table')return q.rows.every((_,ri)=>a&&a[ri]===q.rows[ri].correct);return false;}
+function isAnswered(q,a){if(a===undefined||a===null)return false;if(q.type==='multi')return a.length>0;if(q.type==='partAB')return a&&a.a!==undefined&&a.b!==undefined;if(q.type==='table')return Object.keys(a).length>=q.rows.length;return true;}
+function renderStrip(){const s=document.getElementById('qStrip');s.innerHTML='';if(reviewMode)return;Qs.forEach((q,i)=>{if(i>0&&i%10===0){const sep=document.createElement('span');sep.className='qDotSep';sep.textContent='|';s.appendChild(sep);}const d=document.createElement('button');d.className='qDot'+(i===cur?' active':'')+(isAnswered(q,answers[i])?' done':'');d.textContent=q.id;d.onclick=()=>{cur=i;render();};s.appendChild(d);});}
+function renderQ(q,idx,rev){const a=answers[idx];let h='';if(q.type==='mc'){if(q.excerpt)h+=`<div class="qExcerpt">${q.excerpt}</div>`;h+=`<div class="qPrompt">${q.prompt}</div><div class="choices">`;q.choices.forEach((c,i)=>{let cl=a===i?' sel':'';if(rev)cl=i===q.correct?' correct':(a===i?' wrong':'');h+=`<button class="choice${cl}" ${rev?'disabled':''} onclick="pMC(${idx},${i})"><div class="cMarker"></div><span class="cLetter">&#${9398+i};</span><span>${c}</span></button>`;});h+='</div>';}else if(q.type==='multi'){h+=`<div class="qPrompt">${q.prompt}</div><div class="choices">`;const sel=a||[];q.choices.forEach((c,i)=>{let cl=sel.includes(i)?' sel':'';if(rev)cl=q.correct.includes(i)?' correct':(sel.includes(i)?' wrong':'');h+=`<button class="choice${cl}" ${rev?'disabled':''} onclick="pMulti(${idx},${i})"><div class="cMarker chk"></div><span>${c}</span></button>`;});h+='</div>';}else if(q.type==='partAB'){h+=`<div class="partLabel">Part A</div><div class="qPrompt">${q.partA.prompt}</div><div class="choices">`;q.partA.choices.forEach((c,i)=>{let cl=(a&&a.a===i)?' sel':'';if(rev)cl=i===q.partA.correct?' correct':((a&&a.a===i)?' wrong':'');h+=`<button class="choice${cl}" ${rev?'disabled':''} onclick="pA(${idx},${i})"><div class="cMarker"></div><span class="cLetter">&#${9398+i};</span><span>${c}</span></button>`;});h+=`</div><hr class="partDivider"><div class="partLabel">Part B</div><div class="qPrompt">${q.partB.prompt}</div><div class="choices">`;q.partB.choices.forEach((c,i)=>{let cl=(a&&a.b===i)?' sel':'';if(rev)cl=i===q.partB.correct?' correct':((a&&a.b===i)?' wrong':'');h+=`<button class="choice${cl}" ${rev?'disabled':''} onclick="pB(${idx},${i})"><div class="cMarker"></div><span class="cLetter">&#${9398+i};</span><span>${c}</span></button>`;});h+='</div>';}else if(q.type==='table'){h+=`<div class="qPrompt">${q.prompt}</div><table class="tblQ"><thead><tr><th></th>`;q.rows[0].cols.forEach(c=>{h+=`<th>${c}</th>`;});h+=`</tr></thead><tbody>`;const tA=a||{};q.rows.forEach((row,ri)=>{h+=`<tr><td>${row.label}</td>`;row.cols.forEach((c,ci)=>{const sel=tA[ri]===ci;let cl=sel?' sel':'';if(rev)cl=ci===row.correct?' correct':(sel?' wrong':'');const clk=rev?'':` onclick="pTbl(${idx},${ri},${ci})"`;h+=`<td><span class="tblBub${cl}"${clk}>${String.fromCharCode(65+ri*row.cols.length+ci)}</span></td>`;});h+='</tr>';});h+='</tbody></table>';}if(rev){const ok=isCorrect(q,a);h+=`<div class="feedback ${ok?'ok':'bad'}">${ok?'<strong>&#x2713; Correct!</strong> ':'<strong>&#x2717; Not quite.</strong> '}${q.explain}</div>`;}return h;}
+function render(){if(reviewMode){renderReview(lastAttempt);return;}renderStrip();const q=Qs[cur];document.getElementById('qNum').textContent=q.id;document.getElementById('btnBack').disabled=cur===0;const isLast=cur===Qs.length-1;const btn=document.getElementById('btnNext');btn.textContent=isLast?'Submit':'Next';btn.style.background=isLast?'#2a8a2a':'';const body=document.getElementById('qBody');body.innerHTML=renderQ(q,cur,false);body.scrollTop=0;}
+const TEST_ID=document.title.replace(/[^a-zA-Z0-9]/g,'_');
+const LOG_KEY='fastmath_log_'+TEST_ID;
+const TEACHER_PIN='1234';
+function teacherAccess(){const pin=prompt('Enter teacher PIN:');if(pin===null)return;if(pin===TEACHER_PIN){showTeacherLog();}else{alert('Incorrect PIN.');}}
+(function(){const k={};document.addEventListener('keydown',e=>{k[e.key.toUpperCase()]=true;if(k['T']&&k['E']&&k['A'])teacherAccess();});document.addEventListener('keyup',e=>{delete k[e.key.toUpperCase()];});})();
+function getLog(){try{return JSON.parse(localStorage.getItem(LOG_KEY)||'[]');}catch(e){return[];}}
+function saveAttempt(score,total,snap){const log=getLog();const a={attemptNum:log.length+1,timestamp:new Date().toISOString(),score,total,pct:Math.round(score/total*100),answers:snap};log.push(a);localStorage.setItem(LOG_KEY,JSON.stringify(log));return a;}
+function showTeacherLog(){const log=getLog();if(!log.length){alert('No attempts yet for:\n'+TEST_ID);return;}let msg='=== ATTEMPT LOG ===\n'+TEST_ID+'\n\n';log.forEach(a=>{const d=new Date(a.timestamp);msg+=`Attempt #${a.attemptNum}  |  ${d.toLocaleDateString()} ${d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}  |  Score: ${a.score}/${a.total} (${a.pct}%)\n`;SEG.forEach(s=>{const idxs=Qs.map((q,i)=>i).filter(i=>i>=s.qs[0]&&i<=s.qs[1]);const sc=idxs.filter(i=>isCorrect(Qs[i],a.answers[i])).length;msg+='  '+s.label+': '+sc+'/'+idxs.length+'\n';});});if(log.length>1&&log[log.length-1].score>log[0].score)msg+='\nScore improved: '+log[0].score+'/'+log[0].total+' -> '+log[log.length-1].score+'/'+log[log.length-1].total;alert(msg);}
+function renderReview(attemptData){document.getElementById('qStrip').innerHTML='';document.getElementById('qNum').textContent='&#x2713;';const bB=document.getElementById('btnBack'),bN=document.getElementById('btnNext');bB.textContent='Locked';bB.disabled=true;bB.style.background='#aaa';bN.textContent='Done';bN.style.background='#555';bN.onclick=()=>showToast('Test complete.');const{score,total,pct,attemptNum,timestamp}=attemptData;const band=pct>=80?'#90ff90':pct>=60?'#ffd080':'#ff9090';const segScores=SEG.map(s=>{const idxs=Qs.map((q,i)=>i).filter(i=>i>=s.qs[0]&&i<=s.qs[1]);const sc=idxs.filter(i=>isCorrect(Qs[i],answers[i])).length;return{label:s.label,sc,tot:idxs.length,color:s.color};});let h=`<div style="background:#1a4fa0;color:#fff;padding:16px;border-radius:8px;margin-bottom:20px;"><div style="font-size:17px;font-weight:bold;margin-bottom:4px;">Test Complete - Attempt #${attemptNum}</div><div style="font-size:32px;font-weight:bold;color:${band}">${score} / ${total}</div><div style="font-size:13px;margin-top:3px;opacity:.9;">${pct}% - ${new Date(timestamp).toLocaleDateString()}</div><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">${segScores.map(ss=>{const c=ss.sc===ss.tot?'#90ff90':ss.sc>=ss.tot/2?'#ffd080':'#ff9090';return '<div style=\"background:rgba(255,255,255,.15);border-radius:6px;padding:6px 10px;font-size:12px;\"><div style=\"font-weight:bold;color:'+c+'\">'+ss.sc+'/'+ss.tot+'</div><div style=\"opacity:.8;font-size:10.5px;\">'+ss.label+'</div></div>';}).join('')}</div><div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.15);border-radius:6px;font-size:12.5px;">Locked. ${attemptNum>1?'Attempt #'+attemptNum+' - teacher can see all attempts.':'Teacher has a record.'}</div></div><div style="padding:8px 12px;background:#fff8e1;border:1px solid #f0c040;border-radius:6px;margin-bottom:16px;font-size:13px;color:#7a5800;">Review below - read explanations for questions you missed.</div>`;Qs.forEach((q,i)=>{const ok=isCorrect(q,answers[i]);const tl=q.type==='mc'?'MC':q.type==='multi'?'Select Two':q.type==='partAB'?'Part A/B':'Table';h+=`<div style="margin-bottom:22px;padding:13px;border:2px solid ${ok?'#2a8a2a':'#cc3333'};border-radius:8px;background:${ok?'#f6fff6':'#fff6f6'}"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;"><span style="background:${ok?'#2a8a2a':'#cc3333'};color:#fff;font-weight:bold;font-size:13px;padding:3px 10px;border-radius:20px;">Q${q.id} ${ok?'Correct':'Incorrect'}</span><span style="font-size:12px;color:#555;">${tl}</span></div>${renderQ(q,i,true)}</div>`;});const body=document.getElementById('qBody');body.innerHTML=h;body.scrollTop=0;stamp();}
+function pMC(idx,i){answers[idx]=i;if(!reviewMode)render();}
+function pA(idx,i){if(!answers[idx])answers[idx]={};answers[idx].a=i;if(!reviewMode)render();}
+function pB(idx,i){if(!answers[idx])answers[idx]={};answers[idx].b=i;if(!reviewMode)render();}
+function pMulti(idx,i){if(!answers[idx])answers[idx]=[];const p=answers[idx].indexOf(i);p===-1?answers[idx].push(i):answers[idx].splice(p,1);if(!reviewMode)render();}
+function pTbl(idx,ri,ci){if(!answers[idx])answers[idx]={};answers[idx][ri]=ci;if(!reviewMode)render();}
+function goBack(){if(reviewMode){showToast('Answers are locked.');return;}if(cur>0){cur--;render();}}
+function goNext(){if(reviewMode){showToast('Test complete.');return;}if(cur<Qs.length-1){cur++;render();return;}const miss=Qs.filter((q,i)=>!isAnswered(q,answers[i])).length;if(miss>0){showToast(miss+' question(s) not yet answered.');return;}if(!confirm('Submit? Answers will be locked.'))return;reviewMode=true;const score=Qs.filter((q,i)=>isCorrect(q,answers[i])).length;lastAttempt=saveAttempt(score,Qs.length,JSON.parse(JSON.stringify(answers)));renderReview(lastAttempt);}
+function stamp(){const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});document.getElementById('saveTime').textContent='Saved: '+t;document.getElementById('saveInfo').textContent='Last saved: '+t;}
+function doSave(){stamp();showToast('Saved!');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';clearTimeout(t._t);t._t=setTimeout(()=>t.style.opacity='0',2600);}
+const NOTES_KEY='fastmath_notes_'+TEST_ID;
+function openNotes(){document.getElementById('notesTxt').value=localStorage.getItem(NOTES_KEY)||'';document.getElementById('notesOverlay').style.display='block';}
+function closeNotes(){document.getElementById('notesOverlay').style.display='none';}
+function saveNotes(){localStorage.setItem(NOTES_KEY,document.getElementById('notesTxt').value);closeNotes();}
+function clearNotes(){document.getElementById('notesTxt').value='';}
+let lrActive=false,lrY=200;
+function toggleLR(){lrActive=!lrActive;const bar=document.getElementById('lrBar');const ctrl=document.getElementById('lrControls');if(lrActive){bar.style.display='block';bar.style.top=(lrY-18)+'px';ctrl.style.display='flex';}else{bar.style.display='none';ctrl.style.display='none';}}
+function lrMove(dy){lrY=Math.max(60,Math.min(window.innerHeight-60,lrY+dy));document.getElementById('lrBar').style.top=(lrY-18)+'px';}
+document.addEventListener('touchstart',function(e){if(!lrActive)return;const bar=document.getElementById('lrBar');const ty=e.touches[0].clientY;if(Math.abs(ty-(parseFloat(bar.style.top||'200')+18))<40){function onMove(ev){lrY=ev.touches[0].clientY;bar.style.top=(lrY-18)+'px';}function onEnd(){document.removeEventListener('touchmove',onMove);document.removeEventListener('touchend',onEnd);}document.addEventListener('touchmove',onMove);document.addEventListener('touchend',onEnd);}},{passive:true});
+render();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FL BEST Math Tests — Grade 3</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f4f4;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+  }
+  .topbar {
+    background: #003865;
+    color: white;
+    width: 100%;
+    position: fixed;
+    top: 0; left: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px;
+    height: 48px;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+  }
+  .fl-flag {
+    width: 30px; height: 20px; background: white;
+    border-radius: 2px; overflow: hidden; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .container {
+    margin-top: 80px;
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #003865;
+    margin-bottom: 6px;
+  }
+  .header p {
+    font-size: 14px;
+    color: #767676;
+  }
+  .card {
+    background: white;
+    border: 1px solid #c0c0c0;
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: box-shadow 0.15s;
+  }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .card-header {
+    background: #003865;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-header.challenge { background: #1a1a2e; }
+  .card-title { font-size: 16px; font-weight: bold; color: white; }
+  .card-badge {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-weight: bold;
+  }
+  .badge-practice { background: #cce3f5; color: #003865; }
+  .badge-challenge { background: #a855f7; color: white; }
+  .card-body { padding: 16px 20px; }
+  .card-desc { font-size: 14px; color: #1a1a1a; margin-bottom: 12px; line-height: 1.5; }
+  .card-standards {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;
+  }
+  .std-tag {
+    font-size: 11px; font-weight: bold;
+    padding: 3px 8px; border-radius: 3px; border: 1px solid;
+  }
+  .std-nso { background: #E6F3FF; color: #0060a9; border-color: #a9ccec; }
+  .std-ar  { background: #FFF3E0; color: #B45309; border-color: #f5d08a; }
+  .std-fr  { background: #FDF0F7; color: #9d174d; border-color: #f0abcf; }
+  .std-gr  { background: #F0E6FF; color: #7c3aed; border-color: #c4b5fd; }
+  .card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; color: #767676;
+  }
+  .card-btn {
+    background: #0060a9; color: white;
+    border: none; border-radius: 3px;
+    padding: 8px 20px; font-size: 14px; font-weight: bold;
+    cursor: pointer; font-family: Arial, Helvetica, sans-serif;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .card.challenge .card-btn { background: #7c3aed; }
+  .footer-note {
+    text-align: center; font-size: 12px; color: #767676; margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="fl-flag">
+    <svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" width="30" height="20">
+      <rect width="30" height="20" fill="white"/>
+      <line x1="0" y1="0" x2="30" y2="20" stroke="#c60c30" stroke-width="2.5"/>
+      <line x1="30" y1="0" x2="0" y2="20" stroke="#c60c30" stroke-width="2.5"/>
+      <circle cx="15" cy="10" r="6" fill="#003865"/>
+      <text x="15" y="13.5" text-anchor="middle" font-size="6" fill="white" font-family="Arial" font-weight="bold">FL</text>
+    </svg>
+  </div>
+  Florida Statewide Assessments · FAST Mathematics · Grade 3
+</div>
+
+<div class="container">
+  <div class="header">
+    <h1>Grade 3 Math Practice Tests</h1>
+    <p>FL B.E.S.T. Standards · Unit 15 · Select a test to begin</p>
+  </div>
+
+  <a class="card" href="math_practice_test.html">
+    <div class="card-header">
+      <span class="card-title">Math Practice Test</span>
+      <span class="card-badge badge-practice">Practice</span>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Covers all four FL BEST standards from the original assessment, with extra focus on fractions.</p>
+      <div class="card-standards">
+        <span class="std-tag std-nso">NSO.2.3</span>
+        <span class="std-tag std-ar">AR.1.1</span>
+        <span class="std-tag std-fr">FR.1.3 ⭐</span>
+        <span class="std-tag std-gr">GR.1.2</span>
+      </div>
+      <div class="card-footer">
+        <span>11 questions · 45 min</span>
+        <button class="card-btn">
+          Start Test
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </a>
+
+  <a class="card challenge" href="strong_areas_test.html">
+    <div class="card-header challenge">
+      <span class="card-title">Strong Areas Challenge Test</span>
+      <span class="card-badge badge-challenge">Challenge ⭐</span>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Harder questions targeting the standards you scored highest on — push deeper on mastered skills.</p>
+      <div class="card-standards">
+        <span class="std-tag std-gr">GR.1.2</span>
+        <span class="std-tag std-nso">NSO.2.3</span>
+        <span class="std-tag std-ar">AR.1.1</span>
+      </div>
+      <div class="card-footer">
+        <span>11 questions · 45 min</span>
+        <button class="card-btn">
+          Start Test
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </a>
+
+  <a class="card" href="math_practice_test_2.html">
+    <div class="card-header">
+      <span class="card-title">Math Practice Test 2</span>
+      <span class="card-badge badge-practice">Practice</span>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">A new story-based test covering the same four FL BEST standards with all-new questions and passages.</p>
+      <div class="card-standards">
+        <span class="std-tag std-nso">NSO.2.3</span>
+        <span class="std-tag std-ar">AR.1.1</span>
+        <span class="std-tag std-fr">FR.1.3 ⭐</span>
+        <span class="std-tag std-gr">GR.1.2</span>
+      </div>
+      <div class="card-footer">
+        <span>11 questions · 45 min</span>
+        <button class="card-btn">
+          Start Test
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </a>
+
+  <a class="card" href="math_practice_test_e.html">
+    <div class="card-header">
+      <span class="card-title">Practice Test E</span>
+      <span class="card-badge badge-practice">Practice</span>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">10 brand new questions covering all four FL BEST standards. Teacher PIN, attempt tracking, Notes, and Line Reader.</p>
+      <div class="card-standards">
+        <span class="std-tag std-nso">NSO.2.3</span>
+        <span class="std-tag std-ar">AR.1.1</span>
+        <span class="std-tag std-fr">FR.1.3</span>
+        <span class="std-tag std-gr">GR.1.2</span>
+      </div>
+      <div class="card-footer">
+        <span>10 questions</span>
+        <button class="card-btn">Start Test <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+  </a>
+
+  <a class="card" href="math_practice_test_f.html">
+    <div class="card-header">
+      <span class="card-title">Practice Test F</span>
+      <span class="card-badge badge-practice">Practice</span>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">10 brand new questions covering all four FL BEST standards. Teacher PIN, attempt tracking, Notes, and Line Reader.</p>
+      <div class="card-standards">
+        <span class="std-tag std-nso">NSO.2.3</span>
+        <span class="std-tag std-ar">AR.1.1</span>
+        <span class="std-tag std-fr">FR.1.3</span>
+        <span class="std-tag std-gr">GR.1.2</span>
+      </div>
+      <div class="card-footer">
+        <span>10 questions</span>
+        <button class="card-btn">Start Test <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+  </a>
+
+  <a class="card" href="math_test_40q_new.html">
+    <div class="card-header">
+      <span class="card-title">40-Question Test — New Set</span>
+      <span class="card-badge badge-practice">Full Length</span>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">40 brand new questions in 4 segments of 10. Teacher PIN, attempt tracking, Notes, and Line Reader.</p>
+      <div class="card-standards">
+        <span class="std-tag std-nso">NSO.2.3</span>
+        <span class="std-tag std-ar">AR.1.1</span>
+        <span class="std-tag std-fr">FR.1.3</span>
+        <span class="std-tag std-gr">GR.1.2</span>
+      </div>
+      <div class="card-footer">
+        <span>40 questions · 4 segments</span>
+        <button class="card-btn">Start Test <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+  </a>
+
+  <p class="footer-note">Florida B.E.S.T. Standards · GR03 · Unit 15 · FY26</p>
+</div>
+
+</body>
+</html>
